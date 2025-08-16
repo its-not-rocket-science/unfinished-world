@@ -1,0 +1,10 @@
+node_modules
+.pnp.cjs
+.pnpm-debug.log
+dist
+.next
+.out
+.turbo
+.env
+.DS_Store
+coverage
