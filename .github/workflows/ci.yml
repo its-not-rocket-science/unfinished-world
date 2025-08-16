@@ -1,37 +1,41 @@
 name: CI
 on:
-  push: { branches: [ main, master ] }
-  pull_request: { branches: [ "**" ] }
+  push: { branches: [main, master] }
+  pull_request: { branches: ["**"] }
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed for proper monorepo analysis
 
+      - uses: pnpm/action-setup@v4  # Should come BEFORE node setup
+        with:
+          version: 10.14.0
+          
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'   # enables pnpm store caching (does NOT install pnpm)
+          cache: 'pnpm'
 
-      - uses: pnpm/action-setup@v4   # 👈 installs pnpm onto PATH
-        with:
-          version: 10.14.0
-          run_install: false
+      - name: Verify versions
+        run: |
+          node --version
+          pnpm --version
 
-      - run: pnpm --version          # optional debug
-
-      - name: Install
+      - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint
-        run: pnpm lint
+      - name: Run lint
+        run: pnpm run lint
 
-      - name: Typecheck
-        run: pnpm typecheck
+      - name: Run typecheck
+        run: pnpm run typecheck
 
-      - name: Test
-        run: pnpm test
+      - name: Run tests
+        run: pnpm run test
 
-      - name: Build
-        run: pnpm build
+      - name: Build packages
+        run: pnpm run build
