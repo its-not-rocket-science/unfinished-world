@@ -12,12 +12,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
+          cache: 'pnpm'   # enables pnpm store caching (does NOT install pnpm)
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v4   # 👈 installs pnpm onto PATH
         with:
           version: 10.14.0
           run_install: false
+
+      - run: pnpm --version          # optional debug
 
       - name: Install
         run: pnpm install --frozen-lockfile
