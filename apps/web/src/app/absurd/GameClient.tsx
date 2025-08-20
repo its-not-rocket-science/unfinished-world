@@ -3,7 +3,12 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import {
-  Engine, GameState, buildContent, demoContent, type NodeView, statsLine
+  Engine,
+  GameState,
+  buildContent,
+  demoContent,
+  type NodeView,
+  statsLine,
 } from '@unfinished-world/engine';
 
 const SAVE_KEY = 'absurd_path_save_v1';
@@ -11,11 +16,28 @@ const SAVE_KEY = 'absurd_path_save_v1';
 type SaveSnap = ReturnType<GameState['snapshot']>;
 
 function loadSnap(): SaveSnap | null {
-  try { const raw = localStorage.getItem(SAVE_KEY); return raw ? JSON.parse(raw) : null; }
-  catch { return null; }
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    console.error('Failed to load snapshot:', e);
+    return null;
+  }
 }
-function saveSnap(s: SaveSnap) { try { localStorage.setItem(SAVE_KEY, JSON.stringify(s)); } catch {} }
-function clearSnap() { try { localStorage.removeItem(SAVE_KEY); } catch {} }
+function saveSnap(s: SaveSnap) {
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify(s));
+  } catch (e) {
+    console.error('Failed to save snapshot:', e);
+  }
+}
+function clearSnap() {
+  try {
+    localStorage.removeItem(SAVE_KEY);
+  } catch (e) {
+    console.error('Failed to clear snapshot:', e);
+  }
+}
 
 export default function GameClient() {
   const content = useMemo(() => buildContent(demoContent), []);
@@ -64,7 +86,8 @@ export default function GameClient() {
       <header style={{ fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}>
         {statLine}
         <div style={{ opacity: 0.8 }}>
-          Flags: {flags.length ? flags.join(', ') : '(none)'}<br />
+          Flags: {flags.length ? flags.join(', ') : '(none)'}
+          <br />
           Visited: {view.visited.slice(-6).join(', ')}
         </div>
       </header>

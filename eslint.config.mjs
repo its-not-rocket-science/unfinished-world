@@ -1,44 +1,30 @@
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
+import next from '@next/eslint-plugin-next';
+import reactHooks from 'eslint-plugin-react-hooks';
 
 export default tseslint.config(
-  // Ignore build artifacts across the monorepo
-  {
-    ignores: [
-      '**/dist/**',
-      '**/.next/**',
-      '**/coverage/**',
-      '**/node_modules/**',
-      '**/pnpm-lock.yaml',
-    ],
-  },
+  { ignores: ['**/dist/**', '**/.next/**', '**/coverage/**', '**/node_modules/**'] },
 
-  // Base JS rules
   js.configs.recommended,
-
-  // TypeScript (fast, non-type-aware)
   ...tseslint.configs.recommended,
 
-  // TS / TSX across repo
+  // Global TS/TSX defaults
   {
     files: ['**/*.ts', '**/*.tsx'],
-    languageOptions: {
-      sourceType: 'module',
-      // If you later want type-aware rules, switch to
-      // ...tseslint.configs.recommendedTypeChecked above and set parserOptions.project
-    },
-    rules: {
-      // shared rules here
-      // 'no-console': 'warn',
-    },
+    languageOptions: { sourceType: 'module' },
   },
 
-  // Tests: relax a couple of things if you like
+  // ✅ Next app override
   {
-    files: ['**/test/**/*.{ts,tsx}', '**/*.test.{ts,tsx}'],
+    files: ['apps/web/**/*.{ts,tsx}'],
+    plugins: { '@next/next': next, 'react-hooks': reactHooks },
     rules: {
-      // examples:
-      // '@typescript-eslint/no-explicit-any': 'off',
+      // Next's Core Web Vitals rules (if the plugin exposes them)
+      ...(next.configs['core-web-vitals']?.rules ?? {}),
+      // Ensure hooks rules are present (fixes “react-hooks/exhaustive-deps not found”)
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
     },
   },
 );
