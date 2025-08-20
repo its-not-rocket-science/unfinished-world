@@ -3,6 +3,10 @@ import Fastify from 'fastify';
 import { registerEngineRoutes } from '../src/engineRoutes';
 
 describe('engine routes', () => {
+  type NodeIdView = { node: { id: string } };
+  type SessionStart = { id: string; view: NodeIdView };
+  type ChooseResponse = { view: NodeIdView };
+
   let app: ReturnType<typeof Fastify>;
 
   beforeAll(async () => {
@@ -17,14 +21,14 @@ describe('engine routes', () => {
   it('creates a session and returns initial view', async () => {
     const res = await app.inject({ method: 'POST', url: '/engine/session' });
     expect(res.statusCode).toBe(200);
-    const body = res.json() as any;
+    const body = res.json() as SessionStart;
     expect(body.id).toBeTruthy();
     expect(body.view?.node?.id).toBe('camus_start');
   });
 
   it('progresses the session on choose', async () => {
     const start = await app.inject({ method: 'POST', url: '/engine/session' });
-    const { id, view } = start.json() as any;
+    const { id, view } = start.json() as SessionStart;
 
     const step = await app.inject({
       method: 'POST',
@@ -33,7 +37,7 @@ describe('engine routes', () => {
     });
 
     expect(step.statusCode).toBe(200);
-    const v2 = step.json().view;
+    const { view: v2 } = step.json() as ChooseResponse;
     expect(v2.node.id).not.toBe(view.node.id);
   });
 
@@ -44,7 +48,7 @@ describe('engine routes', () => {
 
   it('400 when index is missing', async () => {
     const start = await app.inject({ method: 'POST', url: '/engine/session' });
-    const { id } = start.json() as any;
+    const { id } = start.json() as SessionStart;
 
     const res = await app.inject({
       method: 'POST',

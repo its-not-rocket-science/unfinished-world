@@ -7,7 +7,6 @@ import {
   choiceIsAvailable,
   applyEffect,
   statsLine,
-  type NodeView,
 } from '../src/core';
 import type { ContentDoc, Choice } from '../src/types';
 
@@ -92,7 +91,7 @@ describe('Engine view/choose/visited', () => {
     expect(v1.choices.map((x) => x.text)).toEqual(['to b']); // hidden second choice
     expect(s.visited).toEqual(['a']);
 
-    const v2 = engine.view(s); // calling again shouldn’t duplicate visit
+    engine.view(s); // calling again shouldn’t duplicate visit
     expect(s.visited).toEqual(['a']);
   });
 
