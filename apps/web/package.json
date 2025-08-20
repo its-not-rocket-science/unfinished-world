@@ -15,6 +15,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.7.0",
     "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^24.3.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
@@ -29,6 +30,7 @@
     "vitest": "^3.2.4"
   },
   "dependencies": {
+    "@unfinished-world/engine": "workspace:*",
     "@unfinished-world/shared": "workspace:*"
   },
   "type": "module"

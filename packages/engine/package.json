@@ -1,0 +1,45 @@
+{
+  "name": "@unfinished-world/engine",
+  "version": "0.0.0",
+  "private": false,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "import": "./dist/client.js"
+    },
+    "./node-io": {
+      "types": "./dist/io.node.d.ts",
+      "import": "./dist/io.node.js"
+    }
+  },
+  "bin": {
+    "absurd-path": "./dist/cli.js"
+  },
+  "scripts": {
+    "dev": "tsx watch src/cli.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.build.json --noEmit",
+    "clean": "rimraf dist",
+    "lint": "eslint . --ext .ts --max-warnings 0",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prepare": "pnpm run build",
+    "prepublishOnly": "pnpm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "@vitest/coverage-v8": "^2.1.5",
+    "rimraf": "^6.0.0",
+    "tsx": "^4.20.4",
+    "typescript": "^5.6.0",
+    "vitest": "^3.2.4"
+  }
+}

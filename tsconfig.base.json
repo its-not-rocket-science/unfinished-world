@@ -13,7 +13,9 @@
     "baseUrl": ".",
     "paths": {
       "@unfinished-world/shared": ["packages/shared/src/index.ts"],
-      "@unfinished-world/shared/*": ["packages/shared/src/*"]
+      "@unfinished-world/shared/*": ["packages/shared/src/*"],
+      "@unfinished-world/engine": ["packages/engine/src/index.ts"],
+      "@unfinished-world/engine/*": ["packages/engine/src/*"]
     }
   }
 }

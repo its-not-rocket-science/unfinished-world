@@ -1,18 +1,16 @@
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
-  // Vitest is powered by Vite; this config is a Vite config
   test: {
     environment: 'jsdom',
-    setupFiles: ['./vitest.setup.ts'],
-    include: ['src/**/*.test.{ts,tsx}'],
+    setupFiles: ['./vitest.setup.ts'], // optional but nice for RTL
     coverage: {
-      provider: 'v8',
-      reports: ['text', 'lcov'],
+      reporter: ['text', 'html'],
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: ['next.config.ts', 'src/app/layout.tsx', '**/*.d.ts'],
+      thresholds: { statements: 70, branches: 65, functions: 65, lines: 70 }
     },
   },
-  // This is the key bit: use the automatic JSX transform (react/jsx-runtime),
-  // so we don't need `import React` in scope.
   esbuild: {
     jsx: 'automatic',
     jsxImportSource: 'react',
