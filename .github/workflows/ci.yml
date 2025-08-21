@@ -11,6 +11,12 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  CI: true
+  HUSKY: 0
+  NEXT_TELEMETRY_DISABLED: 1
+  TURBO_TELEMETRY_DISABLED: 1
+
 jobs:
   build-test:
     runs-on: ubuntu-latest
@@ -19,27 +25,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Install the exact pnpm you use locally (prevents "pnpm not found")
       - name: Setup PNPM
         uses: pnpm/action-setup@v4
         with:
           version: 10.14.0
           run_install: false
 
-      # Setup Node + enable pnpm cache
+      # Node + pnpm cache
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Show versions
         run: |
           node -v
           pnpm -v
 
+      - name: Ensure scripts allowed
+        run: pnpm config set ignore-scripts false
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Pre-build workspace libraries
+        run: pnpm -r --filter "./packages/*" build
 
       - name: Lint
         run: pnpm lint

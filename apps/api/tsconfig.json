@@ -4,6 +4,8 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "Bundler",
+
+    // 👇 ensure the aliases resolve from the repo root
     "baseUrl": "../../",
     "paths": {
       "@unfinished-world/shared": ["packages/shared/src/index.ts"],

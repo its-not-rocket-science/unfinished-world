@@ -1,28 +1,40 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "baseUrl": "../../",
     "paths": {
       "@/*": [
-        "./src/*"
+        "apps/web/src/*"
+      ],
+      "@unfinished-world/shared": [
+        "packages/shared/src/index.ts"
+      ],
+      "@unfinished-world/engine": [
+        "packages/engine/src/index.ts"
+      ],
+      "@unfinished-world/engine/*": [
+        "packages/engine/src/*"
       ]
     },
     "jsx": "preserve",
-    "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
     "allowJs": true,
+    "strict": true,
     "noEmit": true,
-    "isolatedModules": true
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "types": [
+      "node",
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ]
   },
   "include": [
     "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "**/*.ts",
-    "**/*.tsx"
+    "src/**/*",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

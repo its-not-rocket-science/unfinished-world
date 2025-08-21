@@ -20,6 +20,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^8.39.1
         version: 8.39.1(eslint@9.33.0)(typescript@5.9.2)
+      '@vitest/coverage-v8':
+        specifier: ^3.2.4
+        version: 3.2.4(vitest@3.2.4(@types/node@24.3.0)(jsdom@26.1.0)(tsx@4.20.4)(yaml@2.8.1))
       eslint:
         specifier: ^9.33.0
         version: 9.33.0
@@ -47,6 +50,9 @@ importers:
       typescript-eslint:
         specifier: ^8.40.0
         version: 8.40.0(eslint@9.33.0)(typescript@5.9.2)
+      vitest:
+        specifier: ^3.2.4
+        version: 3.2.4(@types/node@24.3.0)(jsdom@26.1.0)(tsx@4.20.4)(yaml@2.8.1)
 
   apps/api:
     dependencies:
